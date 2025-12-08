@@ -1,6 +1,1262 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ExcelTraceX – Advanced Excel Formula Tracer Add-in</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="ExcelTraceX is an advanced Excel formula tracer add-in (VSTO) that lets you instantly trace precedents, dependents, and full formula trees in complex workbooks."
+  />
+  <meta
+    name="keywords"
+    content="Excel add-in, ExcelTraceX, formula tracer, trace precedents, trace dependents, Excel VSTO, Excel formula tree, spreadsheet auditing"
+  />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ExcelTraceX – Advanced Excel Formula Tracer Add-in" />
+  <meta
+    property="og:description"
+    content="Visually trace precedents, dependents, and formula trees in Excel. Understand complex models in seconds."
+  />
+  <meta property="og:url" content="https://exceltracex.github.io/" />
+  <!-- 썸네일 이미지 만들면 이 경로를 변경하세요 -->
+  <meta property="og:image" content="https://exceltracex.github.io/assets/og-image.png" />
+
+  <!-- 기본 폰트 (원하면 나중에 바꿔도 됨) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f5f7fb;
+      --border-subtle: #e1e4ee;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --primary: #2563eb;
+      --primary-soft: rgba(37, 99, 235, 0.08);
+      --primary-dark: #1d4ed8;
+      --accent: #0ea5e9;
+      --danger: #ef4444;
+      --radius-lg: 18px;
+      --shadow-soft: 0 14px 35px rgba(15, 23, 42, 0.08);
+      --shadow-subtle: 0 4px 15px rgba(15, 23, 42, 0.06);
+      --max-width: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      background: radial-gradient(circle at top left, #eff6ff 0, #ffffff 45%, #f9fafb 100%);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.92),
+          rgba(255, 255, 255, 0.85),
+          transparent
+        );
+      border-bottom: 1px solid rgba(226, 232, 240, 0.3);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: radial-gradient(circle at 20% 0, #bfdbfe 0, #2563eb 40%, #1d4ed8 70%, #0f172a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5edff;
+      font-size: 0.9rem;
+      box-shadow: 0 7px 18px rgba(37, 99, 235, 0.4);
+    }
+
+    .logo-sub {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links a {
+      padding: 6px 0;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.16s ease-out;
+      background: transparent;
+      color: var(--text-main);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.35);
+      background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+    }
+
+    .btn-ghost {
+      background: #ffffff;
+      border-color: var(--border-subtle);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-soft);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.8rem;
+    }
+
+    .badge-nav {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 60px 0 40px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 36px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.05);
+      border: 1px solid rgba(191, 219, 254, 0.7);
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .hero-eyebrow-pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 34rem;
+      margin-bottom: 22px;
+    }
+
+    .hero-bullets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .hero-bullets span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .hero-bullets .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--primary);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .hero-note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .hero-note strong {
+      color: var(--primary-dark);
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .hero-card {
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.98);
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: #4b5563;
+    }
+
+    .hero-tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+    }
+
+    .hero-window {
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+      padding: 10px 12px;
+    }
+
+    .hero-window-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .hero-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .hero-dot:nth-child(1) {
+      background: #f97373;
+    }
+    .hero-dot:nth-child(2) {
+      background: #facc15;
+    }
+    .hero-dot:nth-child(3) {
+      background: #22c55e;
+    }
+
+    .hero-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      background: #ffffff;
+      border-radius: 11px;
+      overflow: hidden;
+      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.35);
+    }
+
+    .hero-table thead {
+      background: #f3f4f6;
+    }
+
+    .hero-table th,
+    .hero-table td {
+      padding: 6px 9px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    .hero-table th {
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .hero-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cell-tag {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid rgba(191, 219, 254, 0.9);
+    }
+
+    .cell-value {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .cell-formula {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 0.72rem;
+      color: #4b5563;
+    }
+
+    .pill-stack {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      font-size: 0.7rem;
+    }
+
+    .pill {
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px dashed rgba(148, 163, 184, 0.9);
+      background: #f9fafb;
+      color: #4b5563;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--primary);
+    }
+
+    /* Sections */
+    section {
+      padding: 32px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+
+    /* Features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .features-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      padding: 16px 14px 14px;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .feature-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 9px;
+      background: var(--primary-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .feature-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .feature-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* How it works */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 780px) {
+      .steps-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .step-card {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px dashed rgba(209, 213, 219, 0.9);
+      padding: 14px 14px 12px;
+    }
+
+    .step-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-text {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Pricing */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 780px) {
+      .pricing-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pricing-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(226, 232, 240, 0.96);
+      background: #ffffff;
+      padding: 18px 16px 16px;
+      box-shadow: var(--shadow-subtle);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pricing-card.highlight {
+      border-width: 1.5px;
+      border-color: rgba(37, 99, 235, 0.9);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .pricing-pill {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--primary-dark);
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .pricing-name {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .pricing-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .pricing-price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .pricing-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .pricing-list {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px;
+    }
+
+    .pricing-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .pricing-list li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .pricing-actions {
+      margin-top: 4px;
+    }
+
+    .pricing-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* FAQ */
+    .faq-grid {
+      max-width: 720px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      background: #ffffff;
+      padding: 10px 14px 8px;
+    }
+
+    .faq-q {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .faq-a {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Download CTA */
+    .cta {
+      border-radius: 22px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      background: linear-gradient(135deg, #111827, #0f172a);
+      color: #e5e7eb;
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.72);
+    }
+
+    .cta-text-main {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .cta-text-sub {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-cta-primary {
+      background: #f9fafb;
+      color: #111827;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-cta-primary:hover {
+      background: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    .btn-cta-ghost {
+      background: transparent;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+
+    .btn-cta-ghost:hover {
+      border-color: #e5e7eb;
+      transform: translateY(-1px);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 14px 0 22px;
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-links a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello! ExcelTraceX</h1>
+  <div class="page">
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <div class="logo-mark">Fx</div>
+            <div>
+              <div>ExcelTraceX</div>
+              <div class="logo-sub">Excel formula tracer add-in</div>
+            </div>
+          </div>
+          <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="nav-cta">
+            <span class="badge-nav">For Excel on Windows</span>
+            <a
+              class="btn btn-primary btn-sm"
+              href="https://imedu.gumroad.com/l/exceltracex"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download add-in
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero-inner">
+            <div>
+              <div class="hero-eyebrow">
+                <span class="hero-eyebrow-pill">New</span>
+                <span>Trace precedents & dependents as a tree – in one view.</span>
+              </div>
+              <h1 class="hero-title">Understand complex Excel formulas in seconds.</h1>
+              <p class="hero-subtitle">
+                ExcelTraceX is an advanced Excel add-in (VSTO) that lets you visually trace
+                precedents, dependents, and full formula trees. Navigate large financial models and
+                audit spreadsheets without getting lost.
+              </p>
+              <div class="hero-bullets">
+                <span><span class="dot"></span> Tree view of precedents & dependents</span>
+                <span><span class="dot"></span> Step-through navigation across sheets</span>
+                <span><span class="dot"></span> Works with your existing Excel files</span>
+              </div>
+              <div class="hero-actions">
+                <a
+                  class="btn btn-primary"
+                  href="https://imedu.gumroad.com/l/exceltracex"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Download ExcelTraceX
+                </a>
+                <a
+                  class="btn btn-ghost"
+                  href="https://imedu.gumroad.com/l/exceltracex_pro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get ExcelTraceX&nbsp;Pro
+                </a>
+              </div>
+              <div class="hero-note">
+                This installation file is identical to the trial version. If ExcelTraceX is already
+                installed, you don’t need to download it again.<br />
+                <strong>Activate with your license key</strong> to unlock unlimited usage (use the
+                “License Manager” button in the ExcelTraceX menu in Excel).
+              </div>
+            </div>
+
+            <div class="hero-right">
+              <!-- 오른쪽 미니 UI 카드 (이미지 없이 느낌만 보여주는 용도) -->
+              <div class="hero-card">
+                <div class="hero-card-header">
+                  <div class="hero-card-title">Trace from cell</div>
+                  <div class="hero-tag">Formula tree preview</div>
+                </div>
+                <div class="hero-window">
+                  <div class="hero-window-top">
+                    <div class="hero-dots">
+                      <span class="hero-dot"></span>
+                      <span class="hero-dot"></span>
+                      <span class="hero-dot"></span>
+                    </div>
+                    <div>Sheet: <strong>Summary</strong> &nbsp;&nbsp; Cell: <strong>D15</strong></div>
+                  </div>
+                  <table class="hero-table">
+                    <thead>
+                      <tr>
+                        <th>Type</th>
+                        <th>Sheet</th>
+                        <th>Cell / Name</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="cell-tag">Precedent</span></td>
+                        <td>Inputs</td>
+                        <td>F7</td>
+                        <td class="cell-value">12,500</td>
+                      </tr>
+                      <tr>
+                        <td><span class="cell-tag">Precedent</span></td>
+                        <td>Inputs</td>
+                        <td>F8</td>
+                        <td class="cell-value">0.035</td>
+                      </tr>
+                      <tr>
+                        <td><span class="cell-tag">Dependent</span></td>
+                        <td>Outputs</td>
+                        <td>J22</td>
+                        <td class="cell-value">152,340</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div style="margin-top: 8px">
+                    <div class="cell-formula">
+                      =SUM(Inputs!F7 * (1 + Inputs!F8)) + OFFSET(Detail!$C$5, RowOffset, 0)
+                    </div>
+                    <div class="pill-stack">
+                      <div class="pill">
+                        <span class="pill-dot"></span> Tree view: 12 nodes
+                      </div>
+                      <div class="pill">
+                        <span class="pill-dot"></span> Cross-sheet links highlighted
+                      </div>
+                      <div class="pill">
+                        <span class="pill-dot"></span> Navigate with keyboard or mouse
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 실제 스크린샷을 넣고 싶으면, 위 hero-card 대신 <img> 사용 -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section id="features">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">Features</div>
+            <h2 class="section-title">Built for people who live in Excel.</h2>
+            <p class="section-subtitle">
+              ExcelTraceX helps you explore formulas quicker, reduce errors, and explain complex
+              models to others.
+            </p>
+          </div>
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">👁️</div>
+              <div class="feature-title">Tree view of formulas</div>
+              <div class="feature-text">
+                See precedents and dependents as a tree instead of scattered blue arrows. Follow
+                references across sheets without losing context.
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🧭</div>
+              <div class="feature-title">Step-through navigation</div>
+              <div class="feature-text">
+                Jump to each precedent/dependent with a single click or shortcut. ExcelTraceX keeps
+                track of where you came from so you can go back safely.
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">📑</div>
+              <div class="feature-title">Sheet & name awareness</div>
+              <div class="feature-text">
+                Handles cross-sheet references and named ranges, so you can understand how everything
+                connects in real-world workbooks.
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🎯</div>
+              <div class="feature-title">Focus on the active cell</div>
+              <div class="feature-text">
+                Trace from the cell you care about and immediately see its inputs and outputs.
+                Perfect for reviewing financial models, dashboards, and templates.
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-title">Designed to be fast</div>
+              <div class="feature-text">
+                Built as a VSTO add-in for desktop Excel on Windows. No server, no cloud – everything
+                runs locally inside Excel.
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon">🔐</div>
+              <div class="feature-title">Simple licensing</div>
+              <div class="feature-text">
+                Install once, then use the License Manager inside ExcelTraceX to activate with your
+                Gumroad license key. Same installer for trial and full license.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section id="how-it-works">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">How it works</div>
+            <h2 class="section-title">From download to tracing in three steps.</h2>
+          </div>
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-label">Step 1</div>
+              <div class="step-title">Download & install</div>
+              <div class="step-text">
+                Get the installer from Gumroad and run it on your Windows PC. Next time you open
+                Excel, you’ll see the <strong>ExcelTraceX</strong> tab in the ribbon.
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-label">Step 2</div>
+              <div class="step-title">Try it on your workbook</div>
+              <div class="step-text">
+                Open a spreadsheet, select a cell with a formula, and click <em>Trace from</em>.
+                Explore precedents, dependents, and the formula tree. Use the trial freely within
+                the allowed period.
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-label">Step 3</div>
+              <div class="step-title">Activate your license</div>
+              <div class="step-text">
+                When you’re ready, purchase a license on Gumroad. In Excel, open the ExcelTraceX tab,
+                click <strong>License Manager</strong>, and activate with your license key to unlock
+                unlimited usage.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing -->
+      <section id="pricing">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">Pricing</div>
+            <h2 class="section-title">Start with the trial, upgrade when it pays for itself.</h2>
+            <p class="section-subtitle">
+              ExcelTraceX and ExcelTraceX Pro share the same installer. Licenses are managed through
+              Gumroad and activated inside Excel via the License Manager.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <div>
+                <div class="pricing-pill">Standard</div>
+                <div class="pricing-name">ExcelTraceX</div>
+                <div class="pricing-desc">
+                  Everything you need to trace precedents and dependents in real-world workbooks.
+                  Ideal for analysts, accountants, and power users.
+                </div>
+                <div class="pricing-price">Standard license</div>
+                <div class="pricing-meta">
+                  Exact price is shown on Gumroad in your local currency.
+                </div>
+                <ul class="pricing-list">
+                  <li>Trace precedents & dependents from any cell</li>
+                  <li>Formula tree view for complex calculations</li>
+                  <li>Keyboard navigation between linked cells</li>
+                  <li>Local processing – your files stay on your PC</li>
+                </ul>
+              </div>
+              <div class="pricing-actions">
+                <a
+                  class="btn btn-primary btn-sm"
+                  href="https://imedu.gumroad.com/l/exceltracex"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on Gumroad
+                </a>
+                <div class="pricing-note">
+                  Same installer as the trial. When you enter a valid license key, ExcelTraceX
+                  switches to full mode.
+                </div>
+              </div>
+            </div>
+
+            <div class="pricing-card highlight">
+              <div>
+                <div class="pricing-pill">Pro</div>
+                <div class="pricing-name">ExcelTraceX Pro</div>
+                <div class="pricing-desc">
+                  For heavy Excel users who spend a lot of time inside large models and want the
+                  smoothest tracing experience.
+                </div>
+                <div class="pricing-price">Pro license</div>
+                <div class="pricing-meta">
+                  Includes all Standard features plus Pro-only enhancements. See details on Gumroad.
+                </div>
+                <ul class="pricing-list">
+                  <li>All features from the Standard edition</li>
+                  <li>More advanced tracing & navigation options (as released)</li>
+                  <li>Priority updates as new features are added</li>
+                  <li>Best choice if you live in Excel every day</li>
+                </ul>
+              </div>
+              <div class="pricing-actions">
+                <a
+                  class="btn btn-ghost"
+                  href="https://imedu.gumroad.com/l/exceltracex_pro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Pro on Gumroad
+                </a>
+                <div class="pricing-note">
+                  You can start with the Standard edition and upgrade to Pro later using Gumroad.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">FAQ</div>
+            <h2 class="section-title">Frequently asked questions</h2>
+          </div>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <div class="faq-q">Which versions of Excel are supported?</div>
+              <div class="faq-a">
+                ExcelTraceX is built as a VSTO add-in for Excel on Windows (desktop). It is intended
+                for modern versions of Microsoft 365 / Office Excel on Windows. Excel for Mac and
+                Excel Online are not supported.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">Is the installer different for trial and full license?</div>
+              <div class="faq-a">
+                No. The installation file is identical. After installing ExcelTraceX, you can use it
+                in trial mode. When you purchase a license on Gumroad, you receive a license key.
+                Enter it in the built-in <strong>License Manager</strong> to unlock unlimited usage.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">Can I reinstall ExcelTraceX on a new machine?</div>
+              <div class="faq-a">
+                Yes. You can reinstall the add-in using the same installer and move your license to a
+                new machine according to the licensing rules described on the Gumroad page. License
+                validation is handled by the license manager connected to your key.
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-q">Where can I get support or report a bug?</div>
+              <div class="faq-a">
+                The easiest way is to use the contact or support information on the Gumroad product
+                page. You can also reach out using the support link shown inside the ExcelTraceX
+                ribbon in Excel.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Download CTA -->
+      <section id="download">
+        <div class="container">
+          <div class="cta">
+            <div>
+              <div class="cta-text-main">Ready to trace your next workbook?</div>
+              <div class="cta-text-sub">
+                Download ExcelTraceX, open your existing Excel file, and start tracing from any cell.
+                You can decide later which license is right for you.
+              </div>
+            </div>
+            <div class="cta-actions">
+              <a
+                href="https://imedu.gumroad.com/l/exceltracex"
+                class="btn-cta-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download ExcelTraceX
+              </a>
+              <a
+                href="https://imedu.gumroad.com/l/exceltracex_pro"
+                class="btn-cta-ghost"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Explore Pro edition
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-inner">
+          <div>© <span id="year"></span> ExcelTraceX. All rights reserved.</div>
+          <div class="footer-links">
+            <a href="https://imedu.gumroad.com/l/exceltracex" target="_blank" rel="noopener noreferrer">
+              Gumroad – ExcelTraceX
+            </a>
+            <a
+              href="https://imedu.gumroad.com/l/exceltracex_pro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Gumroad – ExcelTraceX Pro
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // footer 연도 자동 갱신
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
