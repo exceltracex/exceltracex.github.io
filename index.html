@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="ExcelTraceX is an advanced Excel formula tracer add-in (VSTO) with a free 1-month trial and a $29.99 1-year Premium license. Instantly trace precedents, dependents, row consistency and edit complex formulas in a dedicated window."
+    content="ExcelTraceX is an advanced Excel formula tracer add-in (VSTO) with a free 1-month trial and a US$29.99 + tax 1-year Premium license. Instantly trace precedents, dependents, row/column consistency and edit complex formulas in a dedicated window."
   />
   <meta
     name="keywords"
@@ -18,7 +18,7 @@
   <meta property="og:title" content="ExcelTraceX – Advanced Excel Formula Tracer Add-in" />
   <meta
     property="og:description"
-    content="Visually trace precedents and dependents, check row consistency, and edit complex formulas in Excel. Free 1-month trial, 1-year Premium license for $29.99."
+    content="Visually trace precedents and dependents, check row/column consistency, and edit complex formulas in Excel. Free 1-month trial, 1-year Premium license for US$29.99 + tax."
   />
   <meta property="og:url" content="https://exceltracex.github.io/" />
   <!-- 썸네일 이미지 만들면 이 경로를 변경하세요 -->
@@ -443,6 +443,40 @@
       margin-bottom: 3px;
     }
 
+    /* 추가 기능 */
+    .extras-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: var(--shadow-subtle);
+      padding: 14px 14px 16px;
+    }
+
+    .extras-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .extras-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .extras-list {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .extras-list li {
+      margin-bottom: 3px;
+    }
+
     /* Pricing */
     .pricing-grid {
       display: grid;
@@ -685,6 +719,7 @@
           </div>
           <div class="nav-links">
             <a href="#features">Features</a>
+            <a href="#extras">More</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
@@ -715,14 +750,14 @@
               <h1 class="hero-title">Understand complex Excel formulas in seconds.</h1>
               <p class="hero-subtitle">
                 ExcelTraceX is an advanced Excel add-in (VSTO) that lets you visually trace
-                <strong>precedents and dependents</strong>, check row consistency, and edit complex
-                formulas in a dedicated window. Navigate large financial models and audit
+                <strong>precedents and dependents</strong>, check row/column consistency, and edit
+                complex formulas in a dedicated window. Navigate large financial models and audit
                 spreadsheets without getting lost.
               </p>
               <div class="hero-bullets">
                 <span><span class="dot"></span> Tree view of precedents & dependents</span>
                 <span><span class="dot"></span> Row/column consistency checks</span>
-                <span><span class="dot"></span> Free 1-month trial, 1-year Premium license for $29.99</span>
+                <span><span class="dot"></span> Free 1-month trial, 1-year Premium license for US$29.99 + tax</span>
               </div>
               <div class="hero-actions">
                 <a
@@ -744,8 +779,9 @@
               <div class="hero-note">
                 <strong>Free Download</strong> installs ExcelTraceX with a full-featured
                 <strong>1-month trial</strong>. After the trial, you can keep using ExcelTraceX by
-                activating a <strong>1-year Premium license ($29.99)</strong> purchased on Gumroad
-                (enter your key in the “License Manager” inside the ExcelTraceX tab in Excel).
+                activating a <strong>1-year Premium license (US$29.99 + tax)</strong> purchased on
+                Gumroad (enter your key in the “License Manager” inside the ExcelTraceX tab in
+                Excel).
               </div>
             </div>
 
@@ -800,18 +836,19 @@
             </div>
             <div class="feature-demo-title">Trace precedents (and dependents) across sheets</div>
             <div class="feature-demo-text">
-              Start from the cell you care about and follow its inputs across multiple sheets. The
-              demo shows precedents, but the same interface can also trace dependents of a cell.
+              Start from the cell you care about and drill down through its inputs across multiple
+              sheets. The demo focuses on precedents, but the same interface can also trace
+              dependents of a cell so you can see where a value is used.
             </div>
             <ul class="feature-demo-list">
-              <li>List view and tree view for complex formulas.</li>
-              <li>Double-click to jump between sheets and ranges.</li>
-              <li>Formula bar highlight stays in sync with the selected node.</li>
-              <li>Ideal for financial models and linked dashboards.</li>
+              <li>List view and tree view for complex, multi-level formulas.</li>
+              <li>Drill-down through each level of the formula and follow references step by step.</li>
+              <li>Formula bar highlight stays in sync with the selected node in the tracing window.</li>
+              <li>Level-based color highlighting improves formula readability as you explore.</li>
             </ul>
           </div>
 
-          <!-- Feature demo 2: Row Consistency -->
+          <!-- Feature demo 2: Row / Column Consistency -->
           <div class="feature-demo">
             <div class="feature-demo-video">
               <video
@@ -824,17 +861,18 @@
                 Your browser does not support the video tag.
               </video>
             </div>
-            <div class="feature-demo-title">Check row consistency in one pass</div>
+            <div class="feature-demo-title">Check row or column consistency in one pass</div>
             <div class="feature-demo-text">
-              Scan a block of formulas and see which rows follow the same pattern, and which rows
-              are different. This example focuses on rows, but the same logic can be applied to
-              columns when needed.
+              Scan a block of formulas and see which rows (or columns) follow the same pattern, and
+              which ones are different. This example focuses on rows, but the same logic can be
+              applied to columns when needed.
             </div>
             <ul class="feature-demo-list">
-              <li>Detect rows that accidentally use a different reference or offset.</li>
-              <li>Group consistent rows together and highlight outliers.</li>
-              <li>Quickly jump to inconsistent rows to fix them.</li>
-              <li>Useful for large schedules and repeating calculation blocks.</li>
+              <li>Detect rows or columns that accidentally use a different reference or offset.</li>
+              <li>Group consistent patterns together and highlight outliers that need attention.</li>
+              <li>Within the same Consistency view, trace and edit formulas without leaving the window.</li>
+              <li>Directly show the position of referenced cells so you always know what each part refers to.</li>
+              <li>Level-based color highlighting makes long formulas easier to read while checking consistency.</li>
             </ul>
           </div>
 
@@ -853,14 +891,53 @@
             </div>
             <div class="feature-demo-title">Edit long formulas in a dedicated window</div>
             <div class="feature-demo-text">
-              Instead of squeezing into the standard Excel formula bar, open the formula in a
-              separate editor window with color and structure.
+              Instead of squeezing into the standard Excel formula bar, open the formula in an
+              independent editor window with structure and color. You can keep the editor open while
+              you move around the sheet to inspect other cells, without cancelling your edit.
             </div>
             <ul class="feature-demo-list">
-              <li>Colorized parentheses and references for easier reading.</li>
-              <li>Move the cursor in the formula and see the corresponding ranges highlighted.</li>
-              <li>Use keyboard to step through tokens and sub-expressions.</li>
-              <li>Perfect for nested IFs and long, multi-line expressions.</li>
+              <li>Level-based color highlighting to improve readability of nested expressions.</li>
+              <li>Move the cursor in the formula and see the corresponding ranges highlighted in the sheet.</li>
+              <li>Step through tokens and sub-expressions to understand how the formula is built.</li>
+              <li>Because the editor window is independent, you don’t lose your editing state when you need to check other cells.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 추가 기능 -->
+      <section id="extras">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-eyebrow">Additional features</div>
+            <h2 class="section-title">Power tools for people who trace a lot.</h2>
+            <p class="section-subtitle">
+              These features don’t appear in the short demo clips, but they are designed to make
+              real-world tracing and review work much faster.
+            </p>
+          </div>
+
+          <div class="extras-card">
+            <div class="extras-title">History navigation and bookmarks</div>
+            <div class="extras-text">
+              ExcelTraceX remembers where you have been while tracing and lets you mark important
+              locations so you can return to them instantly.
+            </div>
+            <ul class="extras-list">
+              <li>
+                <strong>Visit history with keyboard:</strong> use
+                <code>Ctrl + Alt + ←</code> and <code>Ctrl + Alt + →</code> to move back and forward
+                through previously visited cells and sheets, similar to browser back/forward.
+              </li>
+              <li>
+                <strong>Bookmarks:</strong> add bookmarks to important cells while tracing. Open the
+                bookmark list to jump back to any bookmarked location without searching the workbook
+                again.
+              </li>
+              <li>
+                These navigation tools work together with tracing and the formula editor, so you can
+                explore, edit, and come back to key points smoothly.
+              </li>
             </ul>
           </div>
         </div>
@@ -871,7 +948,7 @@
         <div class="container">
           <div class="section-header">
             <div class="section-eyebrow">Pricing</div>
-            <h2 class="section-title">Try it free for 1 month. Keep it for $29.99 per year.</h2>
+            <h2 class="section-title">Try it free for 1 month. Keep it for US$29.99 + tax per year.</h2>
             <p class="section-subtitle">
               The same installer gives you a free 1-month trial. After that, activate a 1-year
               Premium license purchased via Gumroad to keep using ExcelTraceX.
@@ -887,7 +964,7 @@
                   Start with a fully functional 1-month trial. Perfect if you want to try ExcelTraceX
                   on your real models before committing to a license.
                 </div>
-                <div class="pricing-price">$0</div>
+                <div class="pricing-price">US$0</div>
                 <div class="pricing-meta">
                   Direct download from this site. No sign-up required, no payment needed for the
                   trial period.
@@ -922,10 +999,10 @@
                   For users who rely on Excel regularly and want ExcelTraceX available every day
                   across their models.
                 </div>
-                <div class="pricing-price">$29.99</div>
+                <div class="pricing-price">US$29.99 + tax / year</div>
                 <div class="pricing-meta">
-                  USD per year, billed via Gumroad. Local taxes or currency conversion may apply,
-                  but the base price is <strong>$29.99/year</strong>.
+                  Billed via Gumroad once per year. Local VAT or sales tax may be added depending on
+                  your country. The final price including tax is shown on the Gumroad checkout page.
                 </div>
                 <ul class="pricing-list">
                   <li>Unlocks ExcelTraceX beyond the 1-month trial.</li>
@@ -945,7 +1022,7 @@
                 </a>
                 <div class="pricing-note">
                   Install ExcelTraceX first using the free download, then activate your 1-year
-                  Premium license ($29.99) in the License Manager dialog.
+                  Premium license (US$29.99 + tax) in the License Manager dialog.
                 </div>
               </div>
             </div>
@@ -1013,8 +1090,8 @@
               <div class="cta-text-main">Ready to trace your next workbook?</div>
               <div class="cta-text-sub">
                 Download ExcelTraceX for free, use the full tracing and consistency features for
-                1 month, and then decide if the <strong>$29.99/year</strong> Premium license is right
-                for you.
+                1 month, and then decide if the <strong>US$29.99 + tax / year</strong> Premium
+                license is right for you.
               </div>
             </div>
             <div class="cta-actions">
