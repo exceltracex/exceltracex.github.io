@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="ExcelTraceX is an advanced Excel formula tracer add-in (VSTO) with a free 1-month trial and 1-year Premium license. Instantly trace precedents, dependents, row consistency and edit complex formulas in a dedicated window."
+    content="ExcelTraceX is an advanced Excel formula tracer add-in (VSTO) with a free 1-month trial and a $29.99 1-year Premium license. Instantly trace precedents, dependents, row consistency and edit complex formulas in a dedicated window."
   />
   <meta
     name="keywords"
@@ -18,7 +18,7 @@
   <meta property="og:title" content="ExcelTraceX – Advanced Excel Formula Tracer Add-in" />
   <meta
     property="og:description"
-    content="Visually trace precedents and dependents, check row consistency, and edit complex formulas in Excel. Free 1-month trial, 1-year Premium license available."
+    content="Visually trace precedents and dependents, check row consistency, and edit complex formulas in Excel. Free 1-month trial, 1-year Premium license for $29.99."
   />
   <meta property="og:url" content="https://exceltracex.github.io/" />
   <!-- 썸네일 이미지 만들면 이 경로를 변경하세요 -->
@@ -396,149 +396,51 @@
       margin: 0 auto;
     }
 
-    /* Features */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) {
-      .features-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 680px) {
-      .features-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .feature-card {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(226, 232, 240, 0.95);
-      padding: 16px 14px 14px;
-      box-shadow: var(--shadow-subtle);
-    }
-
-    .feature-icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 9px;
-      background: var(--primary-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      margin-bottom: 8px;
-    }
-
-    .feature-title {
-      font-size: 0.98rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .feature-text {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* How it works */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    @media (max-width: 780px) {
-      .steps-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .step-card {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px dashed rgba(209, 213, 219, 0.9);
-      padding: 14px 14px 12px;
-    }
-
-    .step-label {
-      font-size: 0.76rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--primary-dark);
-      margin-bottom: 4px;
-    }
-
-    .step-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .step-text {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    /* Demos */
-    .demos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    @media (max-width: 980px) {
-      .demos-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 680px) {
-      .demos-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .demo-card {
+    /* Feature demos (1컬럼, 큰 영상) */
+    .feature-demo {
+      max-width: 900px;
+      margin: 0 auto 28px;
       background: #ffffff;
       border-radius: 18px;
       border: 1px solid rgba(226, 232, 240, 0.95);
-      padding: 12px 12px 14px;
       box-shadow: var(--shadow-subtle);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      padding: 14px 14px 16px;
     }
 
-    .demo-video {
+    .feature-demo-video {
       border-radius: 12px;
       overflow: hidden;
       border: 1px solid rgba(226, 232, 240, 0.9);
       background: #000;
+      margin-bottom: 10px;
     }
 
-    .demo-video video {
+    .feature-demo-video video {
       width: 100%;
       display: block;
     }
 
-    .demo-title {
-      font-size: 0.95rem;
+    .feature-demo-title {
+      font-size: 1rem;
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
-    .demo-text {
+    .feature-demo-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .feature-demo-list {
       font-size: 0.84rem;
       color: var(--text-muted);
-      line-height: 1.5;
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .feature-demo-list li {
+      margin-bottom: 3px;
     }
 
     /* Pricing */
@@ -783,8 +685,6 @@
           </div>
           <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#demos">Demos</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
@@ -822,7 +722,7 @@
               <div class="hero-bullets">
                 <span><span class="dot"></span> Tree view of precedents & dependents</span>
                 <span><span class="dot"></span> Row/column consistency checks</span>
-                <span><span class="dot"></span> Free 1-month trial, 1-year Premium license</span>
+                <span><span class="dot"></span> Free 1-month trial, 1-year Premium license for $29.99</span>
               </div>
               <div class="hero-actions">
                 <a
@@ -844,8 +744,8 @@
               <div class="hero-note">
                 <strong>Free Download</strong> installs ExcelTraceX with a full-featured
                 <strong>1-month trial</strong>. After the trial, you can keep using ExcelTraceX by
-                activating a <strong>1-year Premium license</strong> purchased on Gumroad (enter
-                your key in the “License Manager” inside the ExcelTraceX tab in Excel).
+                activating a <strong>1-year Premium license ($29.99)</strong> purchased on Gumroad
+                (enter your key in the “License Manager” inside the ExcelTraceX tab in Excel).
               </div>
             </div>
 
@@ -872,186 +772,96 @@
         </div>
       </section>
 
-      <!-- Features -->
+      <!-- Features = Demo videos one by one -->
       <section id="features">
         <div class="container">
           <div class="section-header">
             <div class="section-eyebrow">Features</div>
-            <h2 class="section-title">Built for people who live in Excel.</h2>
+            <h2 class="section-title">See the core features in action.</h2>
             <p class="section-subtitle">
-              ExcelTraceX helps you explore formulas quicker, reduce errors, and explain complex
-              models to others.
-            </p>
-          </div>
-          <div class="features-grid">
-            <div class="feature-card">
-              <div class="feature-icon">👁️</div>
-              <div class="feature-title">Trace precedents & dependents</div>
-              <div class="feature-text">
-                See precedents and dependents as a structured list or tree instead of scattered blue
-                arrows. Follow references across sheets without losing context. The demo above shows
-                precedents, but the same UI works for dependents.
-              </div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🧭</div>
-              <div class="feature-title">Step-through navigation</div>
-              <div class="feature-text">
-                Jump to each precedent/dependent with a single click or shortcut. ExcelTraceX keeps
-                track of where you came from so you can go back safely.
-              </div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">📑</div>
-              <div class="feature-title">Sheet & name awareness</div>
-              <div class="feature-text">
-                Handles cross-sheet references and named ranges, so you can understand how everything
-                connects in real-world workbooks.
-              </div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">✅</div>
-              <div class="feature-title">Row/column consistency checks</div>
-              <div class="feature-text">
-                Scan a block of formulas and quickly see which rows or columns are inconsistent. The
-                demo focuses on row consistency, but the same logic can be applied to columns.
-              </div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">✏️</div>
-              <div class="feature-title">Dedicated formula editor</div>
-              <div class="feature-text">
-                Open a formula in a separate window, with colorized references and structured
-                navigation. Easier to work with long IFs and nested expressions than in the standard
-                Excel formula bar.
-              </div>
-            </div>
-            <div class="feature-card">
-              <div class="feature-icon">🔐</div>
-              <div class="feature-title">Simple licensing</div>
-              <div class="feature-text">
-                Install once with the free download, then use the License Manager inside ExcelTraceX
-                to activate your 1-year Premium license key from Gumroad.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- How it works -->
-      <section id="how-it-works">
-        <div class="container">
-          <div class="section-header">
-            <div class="section-eyebrow">How it works</div>
-            <h2 class="section-title">From free download to Premium in three steps.</h2>
-          </div>
-          <div class="steps-grid">
-            <div class="step-card">
-              <div class="step-label">Step 1</div>
-              <div class="step-title">Free download & install</div>
-              <div class="step-text">
-                Download the MSI installer directly from this site and run it on your Windows PC.
-                Next time you open Excel, you’ll see the <strong>ExcelTraceX</strong> tab in the
-                ribbon.
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-label">Step 2</div>
-              <div class="step-title">Use the 1-month trial</div>
-              <div class="step-text">
-                For one month, you can use ExcelTraceX with full tracing and consistency features.
-                Explore your real workbooks, trace formulas, and decide if it saves you enough time.
-              </div>
-            </div>
-            <div class="step-card">
-              <div class="step-label">Step 3</div>
-              <div class="step-title">Upgrade to 1-year Premium</div>
-              <div class="step-text">
-                When you’re ready, purchase a 1-year Premium license on Gumroad. In Excel, open the
-                ExcelTraceX tab, click <strong>License Manager</strong>, and activate with your key
-                to continue using ExcelTraceX after the trial.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Demos -->
-      <section id="demos">
-        <div class="container">
-          <div class="section-header">
-            <div class="section-eyebrow">Demos</div>
-            <h2 class="section-title">See ExcelTraceX in action.</h2>
-            <p class="section-subtitle">
-              Short clips from real Excel workbooks – no mockups. The examples below show precedents,
-              row consistency, and the formula editor. Dependents and column consistency work with
-              the same UI.
+              Each clip comes from a real Excel workbook. The examples show precedents, row
+              consistency and the formula editor. Dependents and column consistency use the same UI
+              and flow.
             </p>
           </div>
 
-          <div class="demos-grid">
-            <!-- Tracing Precedents -->
-            <div class="demo-card">
-              <div class="demo-video">
-                <video
-                  src="TracingPrecedent.mp4"
-                  autoplay
-                  loop
-                  muted
-                  playsinline
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              <div class="demo-title">Tracing precedents across sheets</div>
-              <div class="demo-text">
-                Follow the precedents of a formula across multiple sheets. The list and tree views
-                stay synchronized with the active cell and highlighted token in the formula bar. The
-                same tracing UI can also be used for dependents.
-              </div>
+          <!-- Feature demo 1: Tracing Precedents / Dependents -->
+          <div class="feature-demo">
+            <div class="feature-demo-video">
+              <video
+                src="TracingPrecedent.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
+            <div class="feature-demo-title">Trace precedents (and dependents) across sheets</div>
+            <div class="feature-demo-text">
+              Start from the cell you care about and follow its inputs across multiple sheets. The
+              demo shows precedents, but the same interface can also trace dependents of a cell.
+            </div>
+            <ul class="feature-demo-list">
+              <li>List view and tree view for complex formulas.</li>
+              <li>Double-click to jump between sheets and ranges.</li>
+              <li>Formula bar highlight stays in sync with the selected node.</li>
+              <li>Ideal for financial models and linked dashboards.</li>
+            </ul>
+          </div>
 
-            <!-- Row Consistency -->
-            <div class="demo-card">
-              <div class="demo-video">
-                <video
-                  src="RowConsistency.mp4"
-                  autoplay
-                  loop
-                  muted
-                  playsinline
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              <div class="demo-title">Row consistency check</div>
-              <div class="demo-text">
-                Check whether formulas in each row follow the same pattern. Quickly spot rows that
-                deviate from the expected structure. This example shows rows, but the same
-                consistency logic can be applied to columns as well.
-              </div>
+          <!-- Feature demo 2: Row Consistency -->
+          <div class="feature-demo">
+            <div class="feature-demo-video">
+              <video
+                src="RowConsistency.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
+            <div class="feature-demo-title">Check row consistency in one pass</div>
+            <div class="feature-demo-text">
+              Scan a block of formulas and see which rows follow the same pattern, and which rows
+              are different. This example focuses on rows, but the same logic can be applied to
+              columns when needed.
+            </div>
+            <ul class="feature-demo-list">
+              <li>Detect rows that accidentally use a different reference or offset.</li>
+              <li>Group consistent rows together and highlight outliers.</li>
+              <li>Quickly jump to inconsistent rows to fix them.</li>
+              <li>Useful for large schedules and repeating calculation blocks.</li>
+            </ul>
+          </div>
 
-            <!-- Formula Editor -->
-            <div class="demo-card">
-              <div class="demo-video">
-                <video
-                  src="FormulEdit.mp4"
-                  autoplay
-                  loop
-                  muted
-                  playsinline
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              <div class="demo-title">Dedicated formula editor window</div>
-              <div class="demo-text">
-                Edit long formulas in a separate window with colorized parentheses and references.
-                Move the selection inside the formula and see the corresponding ranges highlighted in
-                the sheet, making complex expressions much easier to understand.
-              </div>
+          <!-- Feature demo 3: Formula Editor -->
+          <div class="feature-demo">
+            <div class="feature-demo-video">
+              <video
+                src="FormulEdit.mp4"
+                autoplay
+                loop
+                muted
+                playsinline
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
+            <div class="feature-demo-title">Edit long formulas in a dedicated window</div>
+            <div class="feature-demo-text">
+              Instead of squeezing into the standard Excel formula bar, open the formula in a
+              separate editor window with color and structure.
+            </div>
+            <ul class="feature-demo-list">
+              <li>Colorized parentheses and references for easier reading.</li>
+              <li>Move the cursor in the formula and see the corresponding ranges highlighted.</li>
+              <li>Use keyboard to step through tokens and sub-expressions.</li>
+              <li>Perfect for nested IFs and long, multi-line expressions.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -1061,7 +871,7 @@
         <div class="container">
           <div class="section-header">
             <div class="section-eyebrow">Pricing</div>
-            <h2 class="section-title">Try it free for 1 month. Upgrade when it pays for itself.</h2>
+            <h2 class="section-title">Try it free for 1 month. Keep it for $29.99 per year.</h2>
             <p class="section-subtitle">
               The same installer gives you a free 1-month trial. After that, activate a 1-year
               Premium license purchased via Gumroad to keep using ExcelTraceX.
@@ -1083,10 +893,10 @@
                   trial period.
                 </div>
                 <ul class="pricing-list">
-                  <li>Excel add-in (VSTO) installer</li>
-                  <li>Full tracing & consistency features for 1 month</li>
-                  <li>Use on your own workbooks and models</li>
-                  <li>Upgrade to 1-year Premium anytime</li>
+                  <li>Excel add-in (VSTO) installer.</li>
+                  <li>Full tracing & consistency features for 1 month.</li>
+                  <li>Use on your own workbooks and models.</li>
+                  <li>Upgrade to 1-year Premium anytime.</li>
                 </ul>
               </div>
               <div class="pricing-actions">
@@ -1112,15 +922,16 @@
                   For users who rely on Excel regularly and want ExcelTraceX available every day
                   across their models.
                 </div>
-                <div class="pricing-price">1-year license</div>
+                <div class="pricing-price">$29.99</div>
                 <div class="pricing-meta">
-                  Exact price is shown on Gumroad in your local currency and tax configuration.
+                  USD per year, billed via Gumroad. Local taxes or currency conversion may apply,
+                  but the base price is <strong>$29.99/year</strong>.
                 </div>
                 <ul class="pricing-list">
-                  <li>Unlocks ExcelTraceX beyond the 1-month trial</li>
-                  <li>Includes all tracing & consistency features and updates</li>
-                  <li>License key delivered instantly via Gumroad</li>
-                  <li>Move your license to a new machine if needed</li>
+                  <li>Unlocks ExcelTraceX beyond the 1-month trial.</li>
+                  <li>Includes all tracing & consistency features and updates.</li>
+                  <li>License key delivered instantly via Gumroad.</li>
+                  <li>Move your license to a new machine if needed.</li>
                 </ul>
               </div>
               <div class="pricing-actions">
@@ -1134,7 +945,7 @@
                 </a>
                 <div class="pricing-note">
                   Install ExcelTraceX first using the free download, then activate your 1-year
-                  Premium license in the License Manager dialog.
+                  Premium license ($29.99) in the License Manager dialog.
                 </div>
               </div>
             </div>
@@ -1202,7 +1013,8 @@
               <div class="cta-text-main">Ready to trace your next workbook?</div>
               <div class="cta-text-sub">
                 Download ExcelTraceX for free, use the full tracing and consistency features for
-                1 month, and then decide if a 1-year Premium license is right for you.
+                1 month, and then decide if the <strong>$29.99/year</strong> Premium license is right
+                for you.
               </div>
             </div>
             <div class="cta-actions">
